@@ -1,0 +1,60 @@
+﻿@model LabWork14.Models.Phone
+
+@{
+    ViewBag.Title = "Добавление телефонного номера";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-row">
+        <div class="col">
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName)
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName)
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                @Html.LabelFor(model => model.MiddleName)
+                @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DateOfBirth)
+        @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Number)
+        @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Добавить" class="btn btn-success" />
+        @Html.ActionLink("Назад", "Browse", null, new { @class = "btn btn-danger" })
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
