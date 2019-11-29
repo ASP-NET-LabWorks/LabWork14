@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Linq;
 
 namespace LabWork14.Models
 {
@@ -24,7 +24,8 @@ namespace LabWork14.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
 
-        [Required, Display(Name = "Телефонный номер"), MaxLength(10), Index(IsUnique = true)]
+        [Required, Display(Name = "Телефонный номер"), MaxLength(10)]
+        [NumberValidator]
         public string Number { get; set; }
     }
 
@@ -49,6 +50,25 @@ namespace LabWork14.Models
             catch
             {
                 return new ValidationResult("Недопустимая дата рождения");
+            }
+        }
+    }
+
+    public class NumberValidator : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            try
+            {
+                var number = value.ToString();
+                using (var db = new PhoneDbContext())
+                    if (db.Phones.FirstOrDefault(i => i.Number == number) == null)
+                        return ValidationResult.Success;
+                throw new Exception();
+            }
+            catch
+            {
+                return new ValidationResult("Этот телефонный номер занят");
             }
         }
     }
